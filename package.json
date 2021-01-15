@@ -1,10 +1,22 @@
 {
-  "name": "cheapComic",
+  "name": "cheap-comic",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
+  "bin": {
+    "cheapComic": "./app.js"
+  },
+  "author": {
+    "name": "Lynicis",
+    "email": "lynicis@protonmail.com",
+    "url": "lynicis.github.io"
+  },
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.0",
-    "commander": "^7.0.0"
+    "commander": "^7.0.0",
+    "figlet": "^1.5.0"
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }

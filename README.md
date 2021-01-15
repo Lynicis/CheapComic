@@ -1,5 +1,27 @@
-Todo:
-    - [] Create Command Hierarchy
-    - [] Create Flags Hierarchy
-    - [] Create Sites Patterns And Fetchs With JSDOM
-    - [] 👌 Finish
+# 🦸 Cheap Comic
+
+Version: 1.0.0  
+Tag: ⌚ alanMoore-watchmen  
+Site: // will be here \\
+
+### Installation
+
+To download this program, you must download 🍀 NodeJS & 📦 NPM
+
+1. Step:
+
+```bash
+~$ npm i -g cheapComic
+```
+
+2. Step:
+
+```bash
+~$ cheapComic -v
+```
+
+Enjoy 👍
+
+### Usage
+
+// will be here \\
