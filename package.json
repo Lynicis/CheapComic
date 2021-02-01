@@ -1,12 +1,11 @@
 {
    "name": "cheap-comic",
    "version": "1.0.0",
-   "main": "app.js",
    "bin": {
       "cheapComic": "./app.js"
    },
    "author": {
-      "name": "Lynicis",
+      "name": "İsmail Emre Sırmalı <Lynicis>",
       "email": "lynicis@protonmail.com",
       "url": "http://lynicis.github.io"
    },
@@ -18,6 +17,7 @@
       "commander": "^7.0.0",
       "emoji": "^0.3.2",
       "figlet": "^1.5.0",
+      "inquirer": "^7.3.3",
       "lowdb": "^1.0.0",
       "slug": "^4.0.2"
    },

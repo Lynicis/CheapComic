@@ -8,57 +8,65 @@ const $ = require("cheerio");
 // ======= LowDB =========
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
+const { parse } = require("commander");
 const adapter = new FileSync("sites.json");
 const db = low(adapter);
 // =======================
 
 function readPatternFile() {
+   return new Promise((resolve, reject) => {
+      try {
+         const data = db.get("sites").value();
+         resolve(data);
+      } catch (err) {
+         reject(err);
+      }
+   });
+}
+
+function formatURl(data, keyword) {
+   const format =
+      (data.https ? "https://" : "http://") +
+      data.site_url +
+      data.search_end_point +
+      slug(keyword);
+   console.log(format);
+   return format;
+}
+
+function init(keyword) {
    try {
-      okMsg("Read pattern.");
-      return db.get("sites").value();
+      readPatternFile()
+         .then((pattern) => {
+            fetchData(pattern, keyword)
+               .then((html) => {
+                  pattern.map((p) => {
+                     okMsg(parseHTML(p.pattern, html));
+                  });
+               })
+               .catch((err) => errMsg(err));
+         })
+         .catch((err) => errMsg(err));
    } catch (err) {
       errMsg(err);
    }
 }
 
-function formatURl(data, keyword) {
-   okMsg("Fetched data.");
-   return (
-      (data.https ? "https://" : "http://") +
-      data.site_url +
-      data.site_end_point +
-      slug(keyword)
-   );
-}
-
-function init(keyword) {
-   try {
-      okMsg("Start to process.");
-      const data = {};
-      fetchData(keyword).then((res) => (data.html = res));
-      readPatternFile().then((pattern) => (data.pattern = pattern));
-      okMsg("Finish to process");
-      return data.json();
-   } catch (err) {
-      okMsg(`Process is down, message: ${err}`);
-   }
-}
-
-function fetchData(keyword) {
-   okMsg("Fetcing data...");
-   const data = readPatternFile();
-   data.map(async (d) => {
-      return await axios
-         .get(formatURl(d, keyword))
-         .then((res) => res.data)
-         .catch((err) => console.log(errMsg("Fetching error.")));
+function fetchData(data, keyword) {
+   return new Promise((resolve, reject) => {
+      data.map((d) => {
+         axios
+            .get(formatURl(d, keyword))
+            .then((res) => {
+               resolve(res.data);
+            })
+            .catch((err) => reject(err));
+      });
    });
-   okMsg("Successfully fetched data.");
 }
 
-function parseHTML(data) {
-   okMsg("Parsed HTML.");
-   return $(data.pattern, data.html).text;
+function parseHTML(pattern, html) {
+   return $(pattern, html);
 }
 
 module.exports = {

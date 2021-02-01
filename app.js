@@ -7,6 +7,7 @@ const $ = require("chalk");
 const figlet = require("figlet");
 const { search } = require("./libs/search");
 const chalk = require("chalk");
+const inquirer = require("inquirer");
 
 // ======= LowDB =========
 const low = require("lowdb");
@@ -52,6 +53,15 @@ app.command("search <keyword>")
    .description("output result")
    .action((keyword) => {
       search(keyword);
+   });
+
+app.command("add")
+   .description("add site")
+   .action(() => {
+      inquirer
+         .prompt([{}])
+         .then((ans) => {})
+         .catch((err) => {});
    });
 
 app.parse(process.argv);
