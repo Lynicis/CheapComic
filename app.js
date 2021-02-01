@@ -14,17 +14,22 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("options.json");
 const db = low(adapter);
 
+const pckgAdapter = new FileSync("package.json");
+const pckg = low(pckgAdapter);
+
 // Write global option
 db.defaults({ welcomeText: { state: true } }).write();
 
 // =======================
 
 const app = new Command();
+
 app.name("cheapComic");
 app.usage("[command] <flag>");
+
 const versionTag = `${$.green("Cheap Comic Current Version: ")} ${$.yellow(
-   "1.0.0"
-)} - ${$.magenta("alanMoore-watchmen")}`;
+   pckg.get("version").value()
+)}`;
 app.version(versionTag, "-v, --version", "output app version");
 
 app.addHelpText("before", () => {
@@ -35,7 +40,7 @@ app.addHelpText("before", () => {
    }
 });
 
-app.command("welcometext")
+app.command("wt")
    .description("open/close the welcome text")
    .action(() => {
       const wt = db.get("welcomeText").value();
