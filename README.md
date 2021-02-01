@@ -12,6 +12,8 @@ To download this program, you must download 🍀 NodeJS & 📦 NPM
 
 ```bash
 ~$ npm i -g cheapComic
+    or
+~$ yarn global add cheapComic
 ```
 
 2. Step:
