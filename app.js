@@ -38,7 +38,9 @@ app.addHelpText("before", () => {
 app.command("welcometext")
    .description("open/close the welcome text")
    .action(() => {
-      db.get("welcomeText").set({ state: !state });
+      const wt = db.get("welcomeText").value();
+      db.get("welcomeText").set("state", !wt.state).write();
+      console.log("Turn " + wt.state);
    });
 
 app.command("search <keyword>")
