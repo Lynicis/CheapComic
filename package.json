@@ -1,22 +1,27 @@
 {
-  "name": "cheap-comic",
-  "version": "1.0.0",
-  "main": "app.js",
-  "bin": {
-    "cheapComic": "./app.js"
-  },
-  "author": {
-    "name": "Lynicis",
-    "email": "lynicis@protonmail.com",
-    "url": "lynicis.github.io"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "chalk": "^4.1.0",
-    "commander": "^7.0.0",
-    "figlet": "^1.5.0"
-  },
-  "devDependencies": {
-    "prettier": "2.2.1"
-  }
+   "name": "cheap-comic",
+   "version": "1.0.0",
+   "main": "app.js",
+   "bin": {
+      "cheapComic": "./app.js"
+   },
+   "author": {
+      "name": "Lynicis",
+      "email": "lynicis@protonmail.com",
+      "url": "http://lynicis.github.io"
+   },
+   "license": "MIT",
+   "dependencies": {
+      "axios": "^0.21.1",
+      "chalk": "^4.1.0",
+      "cheerio": "^1.0.0-rc.5",
+      "commander": "^7.0.0",
+      "emoji": "^0.3.2",
+      "figlet": "^1.5.0",
+      "lowdb": "^1.0.0",
+      "slug": "^4.0.2"
+   },
+   "devDependencies": {
+      "prettier": "2.2.1"
+   }
 }

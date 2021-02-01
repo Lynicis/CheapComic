@@ -1,0 +1,11 @@
+{
+   "sites": [
+      {
+         "site_name": "Paralel Evren Çizgi Roman Dükkanı",
+         "https": true,
+         "site_url": "www.paralelevrencr.com",
+         "search_end_point": "/arama?q=",
+         "pattern": "title"
+      }
+   ]
+}
