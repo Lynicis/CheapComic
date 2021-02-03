@@ -63,7 +63,6 @@ function addRoutine() {
          db.get("sites")
             .push({
                site_name: ans.siteName,
-               https: ans.siteURl.search("https://") === 0 ? true : false,
                site_url: ans.siteURl,
                search_end_point: ans.siteSearch,
                pattern: ans.sitePattern,

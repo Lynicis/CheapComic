@@ -43,7 +43,7 @@ app.command("search <keyword>")
    });
 
 app.command("add")
-   .description("add site from routine")
+   .description("add site to routine")
    .action(() => {
       addRoutine();
    });

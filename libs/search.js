@@ -3,6 +3,7 @@ const axios = require("axios");
 const slug = require("slug");
 const $ = require("cheerio");
 const { db } = require("./db");
+const { keyword } = require("chalk");
 
 function readPatternFile() {
    return new Promise((resolve, reject) => {
@@ -16,13 +17,7 @@ function readPatternFile() {
 }
 
 function formatURl(data, keyword) {
-   const format =
-      (data.https ? "https://" : "http://") +
-      data.site_url +
-      data.search_end_point +
-      slug(keyword);
-   console.log(format);
-   return format;
+   return data.site_url + data.search_end_point + slug(keyword);
 }
 
 function init(keyword) {
@@ -57,11 +52,19 @@ function fetchData(data, keyword) {
 }
 
 function parseHTML(pattern, html) {
-   const data = new Array();
-   $(pattern, html).map((d) => {
-      data.push(d.tex);
+   var elmArr = [];
+   var parsed = $(pattern, html);
+   parsed.each(function (i, elm) {
+      $(elm).each(function (i, elm) {
+         if ($(elm).text().includes(keyword) === true) {
+            elmArr.push($(elm).text().replace(/\s/g, " "));
+         }
+      });
    });
-   return data;
+   var result = {};
+   result.name = elmArr[0].match(keyword);
+   //result.price = elmArr[0].match();
+   return result.name;
 }
 
 module.exports = {
