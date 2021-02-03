@@ -6,7 +6,7 @@ const figlet = require("figlet");
 const { db, pckg } = require("./libs/db");
 const { search } = require("./libs/search");
 const { okMsg, errMsg } = require("./libs/message");
-const { addRoutine } = require("./libs/routine");
+const { addRoutine, deleteRoutine } = require("./libs/routine");
 
 const app = new Command();
 
@@ -43,9 +43,15 @@ app.command("search <keyword>")
    });
 
 app.command("add")
-   .description("add site")
+   .description("add site from routine")
    .action(() => {
       addRoutine();
+   });
+
+app.command("delete <keyword>")
+   .description("delete site from routine")
+   .action((keyword) => {
+      deleteRoutine(keyword);
    });
 
 app.parse(process.argv);

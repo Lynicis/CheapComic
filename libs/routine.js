@@ -1,9 +1,11 @@
 const inquirer = require("inquirer");
 const { db } = require("./db");
+const { errMsg, okMsg } = require("./message");
 
 function checkValidate(input) {
    return new Promise((resolve) => {
-      if (input != "" || input != null) {
+      input.trim();
+      if (input != "") {
          resolve(input);
       }
    });
@@ -61,7 +63,7 @@ function addRoutine() {
          db.get("sites")
             .push({
                site_name: ans.siteName,
-               https: ans.siteURl == "http" ? false : true,
+               https: ans.siteURl.search("https://") === 0 ? true : false,
                site_url: ans.siteURl,
                search_end_point: ans.siteSearch,
                pattern: ans.sitePattern,
@@ -73,6 +75,16 @@ function addRoutine() {
       });
 }
 
+function deleteRoutine(siteName) {
+   try {
+      db.get("sites").remove({ site_name: siteName }).write();
+      okMsg("Successfully deleted site from routine.");
+   } catch (error) {
+      errMsg(error);
+   }
+}
+
 module.exports = {
    addRoutine,
+   deleteRoutine,
 };
