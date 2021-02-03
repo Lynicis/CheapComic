@@ -3,10 +3,10 @@
 const { Command } = require("commander");
 const $ = require("chalk");
 const figlet = require("figlet");
-const inquirer = require("inquirer");
-const { pckg, opt } = require("./libs/db");
+const { db, pckg } = require("./libs/db");
 const { search } = require("./libs/search");
-const { okMsg } = require("./libs/message");
+const { okMsg, errMsg } = require("./libs/message");
+const { addRoutine } = require("./libs/routine");
 
 const app = new Command();
 
@@ -19,7 +19,7 @@ const versionTag = `${$.green("Cheap Comic Current Version: ")} ${$.yellow(
 app.version(versionTag, "-v, --version", "output app version");
 
 app.addHelpText("before", () => {
-   const wtState = opt.get("welcomeText").value();
+   const wtState = db.get("welcomeText").value();
    if (wtState.state === true) {
       console.log(
          $.red(figlet.textSync("Cheap Comic", { font: "Star Wars" })) +
@@ -31,8 +31,8 @@ app.addHelpText("before", () => {
 app.command("wt")
    .description("open/close the welcome text")
    .action(() => {
-      const wt = opt.get("welcomeText").value();
-      opt.get("welcomeText").set("state", !wt.state).write();
+      const wt = db.get("welcomeText").value();
+      db.get("welcomeText").set("state", !wt.state).write();
       okMsg("Turn " + wt.state);
    });
 
@@ -45,14 +45,7 @@ app.command("search <keyword>")
 app.command("add")
    .description("add site")
    .action(() => {
-      inquirer
-         .prompt([
-            {
-               type: "",
-            },
-         ])
-         .then((ans) => {})
-         .catch((err) => {});
+      addRoutine();
    });
 
 app.parse(process.argv);

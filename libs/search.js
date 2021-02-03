@@ -2,12 +2,12 @@ const { okMsg, errMsg } = require("./message");
 const axios = require("axios");
 const slug = require("slug");
 const $ = require("cheerio");
-const { opt } = require("./db");
+const { db } = require("./db");
 
 function readPatternFile() {
    return new Promise((resolve, reject) => {
       try {
-         const data = opt.get("sites").value();
+         const data = db.get("sites").value();
          resolve(data);
       } catch (err) {
          reject(err);

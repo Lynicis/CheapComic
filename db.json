@@ -1,0 +1,14 @@
+{
+  "welcomeText": {
+    "state": true
+  },
+  "sites": [
+    {
+      "site_name": "Abidin Evi",
+      "https": true,
+      "site_url": "http://abidinevi.io",
+      "search_end_point": "/arama?q=",
+      "pattern": "title"
+    }
+  ]
+}
