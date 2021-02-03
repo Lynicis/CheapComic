@@ -1,5 +1,7 @@
 # 🦸 Cheap Comic
 
+[![Build Status](https://www.travis-ci.com/Lynicis/CheapComic.svg?token=jRkZM9qch8twsKXTGxyc&branch=master)](https://www.travis-ci.com/Lynicis/CheapComic)
+
 Version: 1.0.0  
 Tag: ⌚ alanMoore-watchmen  
 Site: // will be here \\

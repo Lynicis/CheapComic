@@ -1,17 +1,18 @@
-const { okMsg, errMsg } = require("./message");
-const axios = require("axios");
-const slug = require("slug");
-const $ = require("cheerio");
-const { db } = require("./db");
-const { keyword } = require("chalk");
+var axios = require("axios");
+var slug = require("slug");
+var $ = require("cheerio");
+var db = require("./db").db;
+var messages = require("./message");
+var okMsg = messages.okMsg;
+var errMsg = messages.errMsg;
 
 function readPatternFile() {
-   return new Promise((resolve, reject) => {
-      try {
-         const data = db.get("sites").value();
+   return new Promise(function (resolve, reject) {
+      var data = db.get("sites").value();
+      if (data.length > 0) {
          resolve(data);
-      } catch (err) {
-         reject(err);
+      } else {
+         reject("Routine is empty");
       }
    });
 }
@@ -20,53 +21,58 @@ function formatURl(data, keyword) {
    return data.site_url + data.search_end_point + slug(keyword);
 }
 
-function init(keyword) {
+function search(keyword) {
    try {
       readPatternFile()
-         .then((pattern) => {
+         .then(function (pattern) {
             fetchData(pattern, keyword)
-               .then((html) => {
-                  pattern.map((p) => {
-                     okMsg(parseHTML(p.pattern, html));
+               .then(function (html) {
+                  pattern.map(function (p) {
+                     okMsg(parseHTML(p.pattern, html, keyword));
                   });
                })
-               .catch((err) => errMsg(err));
+               .catch(function (err) {
+                  errMsg(err);
+               });
          })
-         .catch((err) => errMsg(err));
+         .catch(function (err) {
+            errMsg(err);
+         });
    } catch (err) {
       errMsg(err);
    }
 }
 
 function fetchData(data, keyword) {
-   return new Promise((resolve, reject) => {
-      data.map((d) => {
+   return new Promise(function (resolve, reject) {
+      data.map(function (d) {
          axios
             .get(formatURl(d, keyword))
-            .then((res) => {
+            .then(function (res) {
                resolve(res.data);
             })
-            .catch((err) => reject(err));
+            .catch(function (err) {
+               reject(err);
+            });
       });
    });
 }
 
-function parseHTML(pattern, html) {
-   var elmArr = [];
+function parseHTML(pattern, html, keyword) {
    var parsed = $(pattern, html);
+   var elmArr = [];
    parsed.each(function (i, elm) {
       $(elm).each(function (i, elm) {
          if ($(elm).text().includes(keyword) === true) {
-            elmArr.push($(elm).text().replace(/\s/g, " "));
+            elmArr.push($(elm).text().replace(/\s/g, ""));
          }
       });
    });
    var result = {};
    result.name = elmArr[0].match(keyword);
-   //result.price = elmArr[0].match();
-   return result.name;
+   return result;
 }
 
 module.exports = {
-   search: init,
+   search: search,
 };

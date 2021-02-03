@@ -1,9 +1,11 @@
-const inquirer = require("inquirer");
-const { db } = require("./db");
-const { errMsg, okMsg } = require("./message");
+var inquirer = require("inquirer");
+var db = require("./db").db;
+var messages = require("./message");
+var errMsg = messages.errMsg;
+var okMsg = messages.okMsg;
 
 function checkValidate(input) {
-   return new Promise((resolve) => {
+   return new Promise(function (resolve) {
       input.trim();
       if (input != "") {
          resolve(input);
@@ -12,8 +14,8 @@ function checkValidate(input) {
 }
 
 function checkPrefix(input) {
-   return new Promise((resolve) => {
-      const prefix = input.search(/(https?)([:][\/]{2})/);
+   return new Promise(function (resolve) {
+      var prefix = input.search(/(https?)([:][\/]{2})/);
       if (prefix === 0) {
          resolve(input);
          return true;
@@ -59,7 +61,7 @@ function addRoutine() {
             filter: checkValidate,
          },
       ])
-      .then((ans) => {
+      .then(function (ans) {
          db.get("sites")
             .push({
                site_name: ans.siteName,
@@ -69,8 +71,8 @@ function addRoutine() {
             })
             .write();
       })
-      .catch((err) => {
-         errMsg(`Upss.. I have a error. Message: ${err}`);
+      .catch(function (err) {
+         errMsg("Upss.. I have a error. Message: " + err);
       });
 }
 
@@ -84,6 +86,6 @@ function deleteRoutine(siteName) {
 }
 
 module.exports = {
-   addRoutine,
-   deleteRoutine,
+   addRoutine: addRoutine,
+   deleteRoutine: deleteRoutine,
 };

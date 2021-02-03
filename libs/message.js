@@ -1,4 +1,4 @@
-const chalk = require("chalk");
+var chalk = require("chalk");
 
 function errMsg(data) {
    return console.log(chalk.red("[❗] ") + data);
@@ -9,6 +9,6 @@ function okMsg(data) {
 }
 
 module.exports = {
-   errMsg,
-   okMsg,
+   errMsg: errMsg,
+   okMsg: okMsg,
 };

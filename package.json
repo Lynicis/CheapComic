@@ -4,6 +4,11 @@
    "bin": {
       "cheapComic": "./app.js"
    },
+   "scripts": {
+      "prettier": "prettier --write .",
+      "checkPr": "prettier --check .",
+      "test": "jshint app.js"
+   },
    "author": {
       "name": "İsmail Emre Sırmalı",
       "email": "lynicis@protonmail.com",
@@ -22,6 +27,14 @@
       "slug": "^4.0.2"
    },
    "devDependencies": {
+      "jshint": "^2.12.0",
       "prettier": "2.2.1"
-   }
+   },
+   "keywords": [
+      "search",
+      "comic",
+      "book",
+      "cli",
+      "app"
+   ]
 }

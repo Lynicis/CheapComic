@@ -1,56 +1,62 @@
 #!/usr/bin/env node
 
-const { Command } = require("commander");
-const $ = require("chalk");
-const figlet = require("figlet");
-const { db, pckg } = require("./libs/db");
-const { search } = require("./libs/search");
-const { okMsg, errMsg } = require("./libs/message");
-const { addRoutine, deleteRoutine } = require("./libs/routine");
+var Command = require("commander").Command;
+var chalk = require("chalk");
+var figlet = require("figlet");
+var lowdb = require("./libs/db");
+var db = lowdb.db;
+var pckg = lowdb.pckg;
+var search = require("./libs/search").search;
+var messages = require("./libs/message");
+var okMsg = messages.okMsg;
+var errMsg = messages.errMsg;
+var routine = require("./libs/routine");
+var addRoutine = routine.addRoutine;
+var deleteRoutine = routine.deleteRoutine;
 
-const app = new Command();
+var app = new Command();
 
 app.name("cheapComic");
-app.usage("[command] <flag>");
+app.usage("<command> [flag]");
 
-const versionTag = `${$.green("Cheap Comic Current Version: ")} ${$.yellow(
-   pckg.get("version").value()
-)}`;
+var versionTag =
+   chalk.green("Cheap Comic Current Version: ") +
+   chalk.yellow(pckg.get("version").value());
 app.version(versionTag, "-v, --version", "output app version");
 
-app.addHelpText("before", () => {
-   const wtState = db.get("welcomeText").value();
+app.addHelpText("before", function () {
+   var wtState = db.get("welcomeText").value();
    if (wtState.state === true) {
       console.log(
-         $.red(figlet.textSync("Cheap Comic", { font: "Star Wars" })) +
-            $.blue("\n'may the cheapest be with you'\n")
+         chalk.red(figlet.textSync("Cheap Comic", { font: "Star Wars" })) +
+            chalk.blue("\n'may the cheapest be with you'\n")
       );
    }
 });
 
 app.command("wt")
    .description("open/close the welcome text")
-   .action(() => {
-      const wt = db.get("welcomeText").value();
+   .action(function () {
+      var wt = db.get("welcomeText").value();
       db.get("welcomeText").set("state", !wt.state).write();
       okMsg("Turn " + wt.state);
    });
 
 app.command("search <keyword>")
    .description("output result")
-   .action((keyword) => {
+   .action(function (keyword) {
       search(keyword);
    });
 
 app.command("add")
    .description("add site to routine")
-   .action(() => {
+   .action(function () {
       addRoutine();
    });
 
 app.command("delete <keyword>")
    .description("delete site from routine")
-   .action((keyword) => {
+   .action(function (keyword) {
       deleteRoutine(keyword);
    });
 

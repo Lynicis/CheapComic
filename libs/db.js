@@ -1,8 +1,8 @@
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
+var low = require("lowdb");
+var FileSync = require("lowdb/adapters/FileSync");
 
-const dbAdapter = new FileSync("db.json");
-const db = low(dbAdapter);
+var dbAdapter = new FileSync("db.json");
+var db = low(dbAdapter);
 
 db.defaults({
    sites: [],
@@ -11,10 +11,10 @@ db.defaults({
    },
 }).write();
 
-const pckgAdapter = new FileSync("package.json");
-const pckg = low(pckgAdapter);
+var pckgAdapter = new FileSync("package.json");
+var pckg = low(pckgAdapter);
 
 module.exports = {
-   db,
-   pckg,
+   db: db,
+   pckg: pckg,
 };
