@@ -1,27 +1,12 @@
 #!/usr/bin/env node
 
-"use strict";
-
 const { Command } = require("commander");
 const $ = require("chalk");
 const figlet = require("figlet");
-const { search } = require("./libs/search");
-const chalk = require("chalk");
 const inquirer = require("inquirer");
-
-// ======= LowDB =========
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-const adapter = new FileSync("options.json");
-const db = low(adapter);
-
-const pckgAdapter = new FileSync("package.json");
-const pckg = low(pckgAdapter);
-
-// Write global option
-db.defaults({ welcomeText: { state: true } }).write();
-
-// =======================
+const { pckg, opt } = require("./libs/db");
+const { search } = require("./libs/search");
+const { okMsg } = require("./libs/message");
 
 const app = new Command();
 
@@ -34,19 +19,21 @@ const versionTag = `${$.green("Cheap Comic Current Version: ")} ${$.yellow(
 app.version(versionTag, "-v, --version", "output app version");
 
 app.addHelpText("before", () => {
-   const wtState = db.get("welcomeText").value();
+   const wtState = opt.get("welcomeText").value();
    if (wtState.state === true) {
-      console.log(chalk.blue(figlet.textSync("CheapComic")));
-      console.log("\n");
+      console.log(
+         $.red(figlet.textSync("Cheap Comic", { font: "Star Wars" })) +
+            $.blue("\n'may the cheapest be with you'\n")
+      );
    }
 });
 
 app.command("wt")
    .description("open/close the welcome text")
    .action(() => {
-      const wt = db.get("welcomeText").value();
-      db.get("welcomeText").set("state", !wt.state).write();
-      console.log("Turn " + wt.state);
+      const wt = opt.get("welcomeText").value();
+      opt.get("welcomeText").set("state", !wt.state).write();
+      okMsg("Turn " + wt.state);
    });
 
 app.command("search <keyword>")
@@ -59,7 +46,11 @@ app.command("add")
    .description("add site")
    .action(() => {
       inquirer
-         .prompt([{}])
+         .prompt([
+            {
+               type: "",
+            },
+         ])
          .then((ans) => {})
          .catch((err) => {});
    });

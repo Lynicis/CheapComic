@@ -1,22 +1,13 @@
-"use strict";
-
 const { okMsg, errMsg } = require("./message");
 const axios = require("axios");
 const slug = require("slug");
 const $ = require("cheerio");
-
-// ======= LowDB =========
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-const { parse } = require("commander");
-const adapter = new FileSync("sites.json");
-const db = low(adapter);
-// =======================
+const { opt } = require("./db");
 
 function readPatternFile() {
    return new Promise((resolve, reject) => {
       try {
-         const data = db.get("sites").value();
+         const data = opt.get("sites").value();
          resolve(data);
       } catch (err) {
          reject(err);
@@ -66,7 +57,11 @@ function fetchData(data, keyword) {
 }
 
 function parseHTML(pattern, html) {
-   return $(pattern, html);
+   const data = new Array();
+   $(pattern, html).map((d) => {
+      data.push(d.tex);
+   });
+   return data;
 }
 
 module.exports = {
