@@ -1,6 +1,7 @@
-var axios = require("axios");
+var axios = require("./axiosOpt").lynFetch;
 var slug = require("slug");
 var $ = require("cheerio");
+var lyn = require("./slugOpt").lyn;
 var db = require("./db").db;
 var messages = require("./message");
 var okMsg = messages.okMsg;
@@ -18,22 +19,22 @@ function readPatternFile() {
 }
 
 function formatURl(data, keyword) {
-   return data.site_url + data.search_end_point + slug(keyword);
+   return data.site_url + data.search_end_point + slug(keyword, lyn);
 }
 
 function search(keyword) {
    try {
       readPatternFile()
-         .then(function (pattern) {
-            fetchData(pattern, keyword)
-               .then(function (html) {
-                  pattern.map(function (p) {
-                     okMsg(parseHTML(p.pattern, html, keyword));
+         .then(function (db) {
+            db.map(function (pattern) {
+               fetchData(pattern, keyword)
+                  .then(function (html) {
+                     okMsg(parseHTML(pattern.pattern, html));
+                  })
+                  .catch(function (err) {
+                     errMsg(err);
                   });
-               })
-               .catch(function (err) {
-                  errMsg(err);
-               });
+            });
          })
          .catch(function (err) {
             errMsg(err);
@@ -45,34 +46,21 @@ function search(keyword) {
 
 function fetchData(data, keyword) {
    return new Promise(function (resolve, reject) {
-      data.map(function (d) {
+      [data].map(function (d) {
          axios
             .get(formatURl(d, keyword))
-            .then(function (res) {
-               resolve(res.data);
+            .then(function (response) {
+               resolve(response.data);
             })
-            .catch(function (err) {
-               reject(err);
+            .catch(function (error) {
+               reject(error);
             });
       });
    });
 }
 
-function parseHTML(pattern, html, keyword) {
-   var parsed = $(pattern, html);
-   var elmArr = [];
-   parsed.each(function (i, elm) {
-      $(elm).each(function (i, elm) {
-         if ($(elm).text().includes(keyword) === true) {
-            elmArr.push($(elm).text().replace(/\s/g, ""));
-         }
-      });
-   });
-   var result = {};
-   result.name = elmArr[0].match(keyword);
-   return result;
+function parseHTML(pattern, html) {
+   return $(pattern, html).text();
 }
 
-module.exports = {
-   search: search,
-};
+module.exports = search;
