@@ -6,7 +6,6 @@ var okMsg = messages.okMsg;
 
 function checkValidate(input) {
    return new Promise(function (resolve) {
-      input.trim();
       if (input != "") {
          resolve(input);
       }
@@ -15,10 +14,9 @@ function checkValidate(input) {
 
 function checkPrefix(input) {
    return new Promise(function (resolve) {
-      var prefix = input.search(/(https?)([:] {2})/g);
-      if (prefix === 0) {
+      var prefix = input.search(/(https?)([:][\/]{2})/g);
+      if (prefix > -1) {
          resolve(input);
-         return true;
       }
    });
 }
@@ -86,6 +84,8 @@ function deleteRoutine(siteName) {
 }
 
 module.exports = {
+   checkValidate: checkValidate,
+   checkPrefix: checkPrefix,
    addRoutine: addRoutine,
    deleteRoutine: deleteRoutine,
 };
