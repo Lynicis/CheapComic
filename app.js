@@ -9,7 +9,6 @@ var pckg = lowdb.pckg;
 var search = require("./libs/search").search;
 var messages = require("./libs/message");
 var okMsg = messages.okMsg;
-var errMsg = messages.errMsg;
 var routine = require("./libs/routine");
 var addRoutine = routine.addRoutine;
 var deleteRoutine = routine.deleteRoutine;
@@ -60,4 +59,4 @@ app.command("delete <keyword>")
       deleteRoutine(keyword);
    });
 
-app.parse(process.argv);
+app.parse();

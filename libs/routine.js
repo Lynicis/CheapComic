@@ -15,7 +15,7 @@ function checkValidate(input) {
 
 function checkPrefix(input) {
    return new Promise(function (resolve) {
-      var prefix = input.search(/(https?)([:][\/]{2})/);
+      var prefix = input.search(/(https?)([:] {2})/g);
       if (prefix === 0) {
          resolve(input);
          return true;

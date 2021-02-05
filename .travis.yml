@@ -3,3 +3,5 @@ node_js:
    - stable
 cache:
    yarn: true
+script:
+   - "yarn lint"
