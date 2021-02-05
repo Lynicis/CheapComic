@@ -7,11 +7,11 @@ axios.interceptors.response.use(
    },
    function (error) {
       if (error.status === 500) {
-         errMsg("Site is down" + error);
+         return Promise.reject("Site is down" + error);
       } else if (error.status === 404) {
-         errMsg("Wrong page " + error);
+         return Promise.reject("Wrong page " + error);
       }
-      errMsg(error);
+      return Promise.reject(error);
    }
 );
 
