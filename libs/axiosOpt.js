@@ -1,5 +1,4 @@
 var axios = require("axios");
-var errMsg = require("./message").errMsg;
 
 axios.interceptors.response.use(
    function (response) {
