@@ -86,9 +86,17 @@ const deleteRoutine = (siteName) => {
 const listRoutine = () => {
    const sitesDB = db.get("sites").value();
    if (sitesDB.length > 0) {
-      let col = [],
+      let col = [
+            [
+               chalk.red("ID"),
+               chalk.blue("Site Name"),
+               chalk.blue("Site URl"),
+               chalk.blue("Site Endpoint"),
+               chalk.blue("Site Pattern"),
+            ],
+         ],
          count = 0;
-      sitesDB.forEach((elm) => {
+      sitesDB.map((elm) => {
          count++;
          col.push([
             chalk.red(count),
