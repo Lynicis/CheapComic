@@ -1,4 +1,6 @@
 const inquirer = require("inquirer");
+const { table, getBorderCharacters } = require("table");
+const chalk = require("chalk");
 const { db } = require("../libs/db");
 const { okMsg, errMsg } = require("./message");
 
@@ -81,7 +83,33 @@ const deleteRoutine = (siteName) => {
    }
 };
 
+const listRoutine = () => {
+   const sitesDB = db.get("sites").value();
+   if (sitesDB.length > 0) {
+      let col = [],
+         count = 0;
+      sitesDB.forEach((elm) => {
+         count++;
+         col.push([
+            chalk.red(count),
+            elm.site_name,
+            elm.site_url,
+            elm.search_end_point,
+            elm.pattern,
+         ]);
+      });
+      console.log(
+         table(col, {
+            border: getBorderCharacters(`norc`),
+         })
+      );
+   } else {
+      errMsg("Routine is empty.");
+   }
+};
+
 module.exports = {
    addRoutine,
    deleteRoutine,
+   listRoutine,
 };

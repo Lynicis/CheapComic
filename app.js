@@ -6,7 +6,11 @@ const figlet = require("figlet");
 const { db, pckg } = require("./libs/db");
 const search = require("./commands/search");
 const { okMsg } = require("./commands/message");
-const { addRoutine, deleteRoutine } = require("./commands/routine");
+const {
+   addRoutine,
+   deleteRoutine,
+   listRoutine,
+} = require("./commands/routine");
 
 const app = new Command();
 
@@ -40,6 +44,12 @@ app.command("search <keyword>")
    .description("output result")
    .action(function (keyword) {
       search(keyword);
+   });
+
+app.command("list")
+   .description("list your routine")
+   .action(() => {
+      listRoutine();
    });
 
 app.command("add")
