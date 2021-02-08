@@ -1,27 +1,25 @@
-var inquirer = require("inquirer");
-var db = require("./db").db;
-var messages = require("./message");
-var errMsg = messages.errMsg;
-var okMsg = messages.okMsg;
+const inquirer = require("inquirer");
+const { db } = require("../libs/db");
+const { okMsg, errMsg } = require("./message");
 
-function checkValidate(input) {
-   return new Promise(function (resolve) {
+const checkValidate = (input) => {
+   return new Promise((resolve) => {
       if (input != "") {
          resolve(input);
       }
    });
-}
+};
 
-function checkPrefix(input) {
-   return new Promise(function (resolve) {
-      var prefix = input.search(/(https?)([:]\/{2})/g);
+const checkPrefix = (input) => {
+   return new Promise((resolve) => {
+      const prefix = input.search(/(https?)([:]\/{2})/g);
       if (prefix > -1) {
          resolve(input);
       }
    });
-}
+};
 
-function addRoutine() {
+const addRoutine = () => {
    inquirer
       .prompt([
          {
@@ -59,7 +57,7 @@ function addRoutine() {
             filter: checkValidate,
          },
       ])
-      .then(function (ans) {
+      .then((ans) => {
          db.get("sites")
             .push({
                site_name: ans.siteName,
@@ -69,23 +67,21 @@ function addRoutine() {
             })
             .write();
       })
-      .catch(function (err) {
+      .catch((err) => {
          errMsg("Upss.. I have a error. Message: " + err);
       });
-}
+};
 
-function deleteRoutine(siteName) {
+const deleteRoutine = (siteName) => {
    try {
       db.get("sites").remove({ site_name: siteName }).write();
       okMsg("Successfully deleted site from routine.");
    } catch (error) {
       errMsg(error);
    }
-}
+};
 
 module.exports = {
-   checkValidate: checkValidate,
-   checkPrefix: checkPrefix,
-   addRoutine: addRoutine,
-   deleteRoutine: deleteRoutine,
+   addRoutine,
+   deleteRoutine,
 };

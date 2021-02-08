@@ -1,30 +1,25 @@
 #!/usr/bin/env node
 
-var Command = require("commander").Command;
-var chalk = require("chalk");
-var figlet = require("figlet");
-var lowdb = require("./libs/db");
-var db = lowdb.db;
-var pckg = lowdb.pckg;
-var search = require("./libs/search");
-var messages = require("./libs/message");
-var okMsg = messages.okMsg;
-var routine = require("./libs/routine");
-var addRoutine = routine.addRoutine;
-var deleteRoutine = routine.deleteRoutine;
+const { Command } = require("commander");
+const chalk = require("chalk");
+const figlet = require("figlet");
+const { db, pckg } = require("./libs/db");
+const search = require("./commands/search");
+const { okMsg } = require("./commands/message");
+const { addRoutine, deleteRoutine } = require("./commands/routine");
 
-var app = new Command();
+const app = new Command();
 
 app.name("cheapComic");
 app.usage("<command> [flag]");
 
-var versionTag =
+const versionTag =
    chalk.green("Cheap Comic Current Version: ") +
    chalk.yellow(pckg.get("version").value());
 app.version(versionTag, "-v, --version", "output app version");
 
 app.addHelpText("before", function () {
-   var wtState = db.get("welcomeText").value();
+   const wtState = db.get("welcomeText").value();
    if (wtState.state === true) {
       console.log(
          chalk.red(figlet.textSync("Cheap Comic", { font: "Star Wars" })) +
@@ -36,7 +31,7 @@ app.addHelpText("before", function () {
 app.command("wt")
    .description("open/close the welcome text")
    .action(function () {
-      var wt = db.get("welcomeText").value();
+      const wt = db.get("welcomeText").value();
       db.get("welcomeText").set("state", !wt.state).write();
       okMsg("Turn " + wt.state);
    });

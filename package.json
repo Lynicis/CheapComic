@@ -7,8 +7,7 @@
    "scripts": {
       "prettier": "prettier --write .",
       "checkPr": "prettier --check .",
-      "lint": "eslint .",
-      "test": "jest ."
+      "lint": "eslint ."
    },
    "author": {
       "name": "İsmail Emre Sırmalı",
@@ -39,7 +38,6 @@
    },
    "devDependencies": {
       "eslint": "^7.19.0",
-      "jest": "^26.6.3",
       "prettier": "2.2.1"
    },
    "keywords": [

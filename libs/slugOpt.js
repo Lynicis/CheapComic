@@ -1,9 +1,9 @@
-var slug = require("slug");
+const slug = require("slug");
 
 slug.defaults.mode = "lyn";
 slug.defaults.modes["lyn"] = {
    replacement: "+",
-   lower: true
+   lower: true,
 };
 
 module.exports = slug;

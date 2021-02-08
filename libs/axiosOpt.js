@@ -1,10 +1,8 @@
-var axios = require("axios");
+const axios = require("axios");
 
 axios.interceptors.response.use(
-   function (response) {
-      return Promise.resolve(response);
-   },
-   function (error) {
+   (response) => Promise.resolve(response),
+   (error) => {
       if (error.status === 500) {
          return Promise.reject("Site is down" + error);
       } else if (error.status === 404) {

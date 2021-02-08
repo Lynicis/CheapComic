@@ -1,66 +1,64 @@
-var axios = require("./axiosOpt").lynFetch;
-var slug = require("slug");
-var $ = require("cheerio");
-var lyn = require("./slugOpt").lyn;
-var db = require("./db").db;
-var messages = require("./message");
-var okMsg = messages.okMsg;
-var errMsg = messages.errMsg;
+const axios = require("../libs/axiosOpt").lynFetch;
+const slug = require("slug");
+const $ = require("cheerio");
+const lyn = require("../libs/slugOpt");
+const { db } = require("../libs/db");
+const { okMsg, errMsg } = require("./message");
 
-function readPatternFile() {
-   return new Promise(function (resolve, reject) {
-      var data = db.get("sites").value();
+const readPatternFile = () => {
+   return new Promise((resolve, reject) => {
+      const data = db.get("sites").value();
       if (data.length > 0) {
          resolve(data);
       } else {
          reject("Routine is empty");
       }
    });
-}
+};
 
-function formatURl(data, keyword) {
+const formatURl = (data, keyword) => {
    return data.site_url + data.search_end_point + slug(keyword, lyn);
-}
+};
 
-function search(keyword) {
+const search = (keyword) => {
    try {
       readPatternFile()
-         .then(function (db) {
-            db.map(function (pattern) {
+         .then((db) => {
+            db.map((pattern) => {
                fetchData(pattern, keyword)
-                  .then(function (html) {
+                  .then((html) => {
                      okMsg(parseHTML(pattern.pattern, html));
                   })
-                  .catch(function (err) {
+                  .catch((err) => {
                      errMsg(err);
                   });
             });
          })
-         .catch(function (err) {
+         .catch((err) => {
             errMsg(err);
          });
    } catch (err) {
       errMsg(err);
    }
-}
+};
 
-function fetchData(data, keyword) {
-   return new Promise(function (resolve, reject) {
-      [data].map(function (d) {
+const fetchData = (data, keyword) => {
+   return new Promise((resolve, reject) => {
+      [data].map((d) => {
          axios
             .get(formatURl(d, keyword))
-            .then(function (response) {
+            .then((response) => {
                resolve(response.data);
             })
-            .catch(function (error) {
+            .catch((error) => {
                reject(error);
             });
       });
    });
-}
+};
 
-function parseHTML(pattern, html) {
+const parseHTML = (pattern, html) => {
    return $(pattern, html).text();
-}
+};
 
 module.exports = search;
