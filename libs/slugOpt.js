@@ -3,8 +3,7 @@ var slug = require("slug");
 slug.defaults.mode = "lyn";
 slug.defaults.modes["lyn"] = {
    replacement: "+",
+   lower: true
 };
 
-module.exports = {
-   lyn: slug,
-};
+module.exports = slug;

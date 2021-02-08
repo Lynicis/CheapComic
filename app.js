@@ -6,7 +6,7 @@ var figlet = require("figlet");
 var lowdb = require("./libs/db");
 var db = lowdb.db;
 var pckg = lowdb.pckg;
-var search = require("./libs/search").search;
+var search = require("./libs/search");
 var messages = require("./libs/message");
 var okMsg = messages.okMsg;
 var routine = require("./libs/routine");
@@ -59,4 +59,4 @@ app.command("delete <keyword>")
       deleteRoutine(keyword);
    });
 
-app.parse();
+app.parse(process.argv);

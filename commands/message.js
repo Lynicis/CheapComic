@@ -1,4 +1,4 @@
-var chalk = require("chalk");
+const chalk = require("chalk");
 
 function errMsg(data) {
    return console.log(chalk.red("[❗] ") + data);
