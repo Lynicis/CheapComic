@@ -44,7 +44,7 @@ const search = (keyword) => {
 
 const fetchData = (data, keyword) => {
    return new Promise((resolve, reject) => {
-      [data].map((d) => {
+      [data].forEach((d) => {
          axios
             .get(formatURl(d, keyword))
             .then((response) => {
