@@ -13,7 +13,6 @@ enabled = true
 
   [analyzers.meta]
   environment = ["nodejs"]
-  style_guide = "airbnb"
 
 [[transformers]]
 name = "prettier"
