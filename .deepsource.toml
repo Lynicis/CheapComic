@@ -1,0 +1,20 @@
+version = 1
+
+test_patterns = ["test/**"]
+
+exclude_patterns = [
+    ".idea/**",
+    "node_modules/**"
+]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  environment = ["nodejs"]
+  style_guide = "airbnb"
+
+[[transformers]]
+name = "prettier"
+enabled = true
