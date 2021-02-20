@@ -1,9 +1,11 @@
-const axios = require("../libs/axiosOpt").lynFetch;
+const axios = require("../libs/axiosOpt");
 const slug = require("slug");
 const $ = require("cheerio");
 const lyn = require("../libs/slugOpt");
 const { db } = require("../libs/db");
 const { okMsg, errMsg } = require("./message");
+
+let globalKeyword = "";
 
 const readPatternFile = () => {
    return new Promise((resolve, reject) => {
@@ -22,6 +24,7 @@ const formatURl = (data, keyword) => {
 
 const search = (keyword) => {
    try {
+      globalKeyword = keyword;
       readPatternFile()
          .then((db) => {
             db.map((pattern) => {
@@ -58,7 +61,20 @@ const fetchData = (data, keyword) => {
 };
 
 const parseHTML = (pattern, html) => {
-   return $(pattern, html).text();
+   const parsed = $(pattern, html);
+   const possibleElms = [];
+   parsed.each((i, elm) => {
+      if ($(elm).text().includes(globalKeyword) === true) {
+         possibleElms.push(
+            $(elm)
+               .text()
+               .split(/\w\//g)
+               .filter((filterElm) => filterElm)
+         );
+         console.log($(elm).text());
+      }
+   });
+   return possibleElms;
 };
 
-module.exports = search;
+module.exports = search();

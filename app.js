@@ -10,7 +10,7 @@ const {
    addRoutine,
    deleteRoutine,
    listRoutine,
-} = require("./commands/routine");
+} = require("./commands/message");
 
 const app = new Command();
 
@@ -32,36 +32,36 @@ app.addHelpText("before", function () {
    }
 });
 
-app.command("wt")
+app.command("set")
    .description("open/close the welcome text")
+   .option("-wt, --welcomeMessage <state>", "open/close welcome message", true)
    .action(function () {
-      const wt = db.get("welcomeText").value();
-      db.get("welcomeText").set("state", !wt.state).write();
-      okMsg("Turn " + wt.state);
+      switch (app.opts()) {
+         case welcomeMessage:
+            const dbWt = db.get("welcomeText").value();
+            db.get("welcomeText").set("state", !dbWt.state).write();
+            okMsg("Turn " + dbWt.state);
+            break;
+
+         default:
+            break;
+      }
    });
 
 app.command("search <keyword>")
    .description("output result")
-   .action(function (keyword) {
-      search(keyword);
-   });
+   .action((keyword) => search(keyword));
 
 app.command("list")
    .description("list your routine")
-   .action(() => {
-      listRoutine();
-   });
+   .action(() => listRoutine());
 
 app.command("add")
    .description("add site to routine")
-   .action(function () {
-      addRoutine();
-   });
+   .action(() => addRoutine());
 
 app.command("delete <keyword>")
    .description("delete site from routine")
-   .action(function (keyword) {
-      deleteRoutine(keyword);
-   });
+   .action((keyword) => deleteRoutine(keyword));
 
 app.parse(process.argv);

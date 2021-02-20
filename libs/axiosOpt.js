@@ -12,6 +12,4 @@ axios.interceptors.response.use(
    }
 );
 
-module.exports = {
-   lynFetch: axios,
-};
+module.exports = axios;
