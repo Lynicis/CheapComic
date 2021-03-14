@@ -3,8 +3,6 @@
 [![Build Status](https://www.travis-ci.com/Lynicis/CheapComic.svg?token=jRkZM9qch8twsKXTGxyc&branch=master)](https://www.travis-ci.com/Lynicis/CheapComic)
 [![DeepSource](https://deepsource.io/gh/Lynicis/CheapComic.svg/?label=active+issues&show_trend=true&token=WOuz3wEwqcFPVYM1UmcFdprg)](https://deepsource.io/gh/Lynicis/CheapComic/?ref=repository-badge)
 
-Version: 1.0.0  
-Tag: ⌚ alanMoore-watchmen  
 Site: // will be here \\
 
 ### Installation

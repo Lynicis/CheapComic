@@ -30,7 +30,6 @@
       "chalk": "^4.1.0",
       "cheerio": "^1.0.0-rc.5",
       "commander": "^7.0.0",
-      "emoji": "^0.3.2",
       "figlet": "^1.5.0",
       "inquirer": "^7.3.3",
       "lowdb": "^1.0.0",

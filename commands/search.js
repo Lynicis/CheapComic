@@ -4,6 +4,7 @@ const $ = require("cheerio");
 const lyn = require("../libs/slugOpt");
 const { db } = require("../libs/db");
 const { okMsg, errMsg } = require("./message");
+const chalk = require("chalk");
 
 let globalKeyword = "";
 
@@ -31,6 +32,11 @@ const search = (keyword) => {
                fetchData(pattern, keyword)
                   .then((html) => {
                      okMsg(parseHTML(pattern.pattern, html));
+                     console.log(
+                        `${chalk.yellow(
+                           "tip: If your saw empty. You can use this command 'cheapComic edit <name>'"
+                        )}`
+                     );
                   })
                   .catch((err) => {
                      errMsg(err);
@@ -77,4 +83,4 @@ const parseHTML = (pattern, html) => {
    return possibleElms;
 };
 
-module.exports = search();
+module.exports = search;

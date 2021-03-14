@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 
 const errMsg = (data) => {
-   return console.log(chalk.red("[❗] ") + data);
+   return console.log(chalk.red("[!] ") + data);
 };
 
 const okMsg = (data) => {
